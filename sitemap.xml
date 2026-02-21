@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ai.liexpress.cc/</loc>
-    <lastmod>2026-02-16</lastmod>
-    <changefreq>daily</changefreq> 
+    <lastmod>2026-02-21</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://ai.liexpress.cc/post/2026-tech-tipping-point-capability-redistribution/</loc>
+    <lastmod>2026-02-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
   </url>
 
   <url>
