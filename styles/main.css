@@ -1,8 +1,7 @@
-/* iOS Aesthetic Design System - Responsive Blog Styles */
+/* iOS Aesthetic Design System - Full Width Responsive Blog Styles */
 
-/* ========== CSS Variables (Design Tokens) ========== */
+/* ========== CSS Variables ========== */
 :root {
-  /* iOS Light Mode Colors */
   --ios-bg-primary: #F2F2F7;
   --ios-bg-secondary: #FFFFFF;
   --ios-bg-tertiary: #F5F5F7;
@@ -15,29 +14,11 @@
   
   --ios-blue: #007AFF;
   --ios-blue-dark: #0051D5;
-  --ios-green: #34C759;
-  --ios-orange: #FF9500;
-  --ios-red: #FF3B30;
-  --ios-gray: #8E8E93;
   
-  /* iOS Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
-  
-  /* iOS Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-full: 9999px;
-  
-  /* Typography */
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "SF Mono", SFMono-Regular, ui-monospace, Menlo, monospace;
 }
 
-/* ========== Reset & Base ========== */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -47,32 +28,30 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
   font-size: 17px;
   line-height: 1.6;
   color: var(--ios-text-primary);
   background-color: var(--ios-bg-primary);
-  letter-spacing: -0.022em;
 }
 
-/* ========== Layout Container - Full Width Utilization ========== */
+/* ========== FULL WIDTH LAYOUT ========== */
 .main {
   width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   padding: 0;
   min-height: 100vh;
 }
 
-/* Mobile First: Phone Portrait (default) */
+/* ========== HEADER - FULL WIDTH ========== */
 .site-header {
+  width: 100%;
   text-align: center;
-  padding: 24px 20px 20px;
+  padding: 20px 16px 16px;
   background: var(--ios-bg-secondary);
   border-bottom: 0.5px solid var(--ios-text-quaternary);
 }
@@ -80,9 +59,7 @@ body {
 .site-title {
   font-size: 22px;
   font-weight: 700;
-  letter-spacing: -0.021em;
   margin-bottom: 4px;
-  color: var(--ios-text-primary);
 }
 
 .site-title a {
@@ -93,27 +70,43 @@ body {
 .site-description {
   font-size: 13px;
   color: var(--ios-text-tertiary);
-  font-weight: 400;
 }
 
-/* Post List - Full Width Cards */
+.social-links {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.social-links a {
+  color: var(--ios-text-tertiary);
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: var(--ios-blue);
+}
+
+/* ========== POST LIST - FULL WIDTH CARDS ========== */
 .post-list {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 16px;
+  gap: 1px;
+  background: var(--ios-bg-primary);
 }
 
 .post-item {
+  width: 100%;
   background: var(--ios-bg-secondary);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.2s ease;
+  padding: 20px 16px;
+  transition: background 0.15s;
 }
 
 .post-item:active {
-  transform: scale(0.98);
   background: var(--ios-bg-tertiary);
 }
 
@@ -121,8 +114,7 @@ body {
   font-size: 18px;
   font-weight: 600;
   line-height: 1.3;
-  letter-spacing: -0.021em;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .post-item .post-title a {
@@ -132,9 +124,10 @@ body {
 
 .post-item .post-meta {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: 8px 12px;
+  margin-bottom: 8px;
   font-size: 13px;
   color: var(--ios-text-tertiary);
 }
@@ -150,14 +143,16 @@ body {
   color: var(--ios-text-secondary);
 }
 
-/* Article Page - Full Width */
+/* ========== ARTICLE PAGE - FULL WIDTH ========== */
 article.post {
+  width: 100%;
   background: var(--ios-bg-secondary);
   min-height: 100vh;
 }
 
 .post-header {
-  padding: 24px 20px 20px;
+  width: 100%;
+  padding: 24px 16px 20px;
   border-bottom: 0.5px solid var(--ios-text-quaternary);
 }
 
@@ -165,16 +160,14 @@ article.post {
   font-size: 26px;
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.021em;
-  margin-bottom: 16px;
-  color: var(--ios-text-primary);
+  margin-bottom: 12px;
 }
 
 .post-header .post-meta {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
+  gap: 8px 12px;
   font-size: 14px;
   color: var(--ios-text-tertiary);
 }
@@ -184,12 +177,19 @@ article.post {
   font-weight: 500;
 }
 
-/* Post Content - Readable Width with Padding */
+/* ========== POST CONTENT - FULL WIDTH WITH READABLE TEXT ========== */
 .post-content {
+  width: 100%;
   font-size: 17px;
   line-height: 1.7;
   color: var(--ios-text-primary);
-  padding: 24px 20px 40px;
+  padding: 24px 16px 40px;
+}
+
+.post-content > * {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .post-content > * + * {
@@ -199,21 +199,15 @@ article.post {
 .post-content h2 {
   font-size: 22px;
   font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.021em;
-  margin-top: 36px;
+  margin-top: 32px;
   margin-bottom: 16px;
-  color: var(--ios-text-primary);
 }
 
 .post-content h3 {
   font-size: 19px;
   font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.021em;
   margin-top: 28px;
   margin-bottom: 12px;
-  color: var(--ios-text-primary);
 }
 
 .post-content p {
@@ -222,20 +216,21 @@ article.post {
 
 .post-content strong {
   font-weight: 600;
-  color: var(--ios-text-primary);
 }
 
-/* Blockquote */
+/* Blockquote - full width background, centered text */
 .post-content blockquote {
+  width: 100%;
+  max-width: none;
   margin: 24px 0;
-  padding: 16px 20px;
+  padding: 20px 16px;
   background: var(--ios-bg-tertiary);
-  border-radius: var(--radius-md);
   border-left: 3px solid var(--ios-blue);
 }
 
 .post-content blockquote p {
-  margin: 0;
+  max-width: 680px;
+  margin: 0 auto;
   font-size: 16px;
   line-height: 1.6;
   color: var(--ios-text-secondary);
@@ -244,44 +239,83 @@ article.post {
 /* Lists */
 .post-content ul,
 .post-content ol {
-  margin: 16px 0;
   padding-left: 24px;
 }
 
 .post-content li {
   margin-bottom: 8px;
-  line-height: 1.6;
+}
+
+/* Table - full width */
+.post-content table {
+  width: 100%;
+  max-width: none;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+.post-content th,
+.post-content td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 0.5px solid var(--ios-text-quaternary);
+}
+
+.post-content th {
+  background: var(--ios-bg-tertiary);
+  font-weight: 600;
+  color: var(--ios-text-secondary);
 }
 
 /* Horizontal Rule */
 .post-content hr {
-  margin: 32px 0;
+  width: 100%;
+  max-width: 200px;
+  margin: 32px auto;
   border: none;
   height: 0.5px;
   background: var(--ios-text-quaternary);
 }
 
-/* Original Text Attachment Blocks */
+/* Original Text Attachment - PROPER DARK MODE SUPPORT */
 .original-text {
+  width: 100%;
+  max-width: none;
   background: var(--ios-bg-tertiary);
-  border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 20px 16px;
   margin: 24px 0;
   font-size: 15px;
   line-height: 1.7;
-  color: var(--ios-text-secondary);
-  border: 0.5px solid var(--ios-text-quaternary);
+  color: var(--ios-text-primary);
+  border-top: 0.5px solid var(--ios-text-quaternary);
+  border-bottom: 0.5px solid var(--ios-text-quaternary);
 }
 
 .original-text p {
-  margin-bottom: 12px;
+  max-width: 680px;
+  margin: 0 auto 12px;
+  color: var(--ios-text-primary);
 }
 
 .original-text p:last-child {
   margin-bottom: 0;
 }
 
-/* Back Home Button */
+/* Dark mode specific overrides */
+@media (prefers-color-scheme: dark) {
+  .original-text {
+    background: var(--ios-bg-tertiary);
+    color: var(--ios-text-primary);
+    border-color: var(--ios-text-quaternary);
+  }
+  
+  .original-text p {
+    color: var(--ios-text-primary);
+  }
+}
+
+/* Back Home Button - centered */
 .back-home-btn {
   display: inline-flex;
   align-items: center;
@@ -291,12 +325,9 @@ article.post {
   font-size: 17px;
   font-weight: 600;
   padding: 14px 28px;
-  border-radius: var(--radius-full);
+  border-radius: 9999px;
   text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin: 32px 20px;
+  margin: 32px auto;
 }
 
 .back-home-btn:active {
@@ -304,13 +335,19 @@ article.post {
   background: var(--ios-blue-dark);
 }
 
-/* Footer */
+/* Footer - full width */
 .site-footer {
-  padding: 32px 20px;
+  width: 100%;
+  padding: 32px 16px;
   text-align: center;
   color: var(--ios-text-tertiary);
   font-size: 13px;
   background: var(--ios-bg-primary);
+  border-top: 0.5px solid var(--ios-text-quaternary);
+}
+
+.site-footer p {
+  margin-bottom: 8px;
 }
 
 /* Links */
@@ -322,13 +359,12 @@ a {
 /* Selection */
 ::selection {
   background: rgba(0, 122, 255, 0.2);
-  color: var(--ios-text-primary);
 }
 
-/* ========== Tablet (iPad) - 768px+ ========== */
+/* ========== TABLET (iPad) - 768px+ ========== */
 @media (min-width: 768px) {
   .site-header {
-    padding: 32px 40px 24px;
+    padding: 28px 32px 24px;
   }
   
   .site-title {
@@ -339,13 +375,8 @@ a {
     font-size: 15px;
   }
   
-  .post-list {
-    padding: 24px 40px;
-    gap: 16px;
-  }
-  
   .post-item {
-    padding: 28px;
+    padding: 28px 32px;
   }
   
   .post-item .post-title {
@@ -353,17 +384,20 @@ a {
   }
   
   .post-header {
-    padding: 40px;
+    padding: 32px;
   }
   
   .post-header .post-title {
     font-size: 36px;
-    max-width: 800px;
   }
   
   .post-content {
-    padding: 40px;
+    padding: 32px;
     font-size: 18px;
+  }
+  
+  .post-content > * {
+    max-width: 720px;
   }
   
   .post-content h2 {
@@ -374,72 +408,72 @@ a {
     font-size: 22px;
   }
   
-  .original-text {
-    padding: 28px;
-    margin: 32px 0;
+  .post-content blockquote {
+    padding: 24px 32px;
   }
   
-  .back-home-btn {
-    margin: 40px;
+  .original-text {
+    padding: 24px 32px;
   }
   
   .site-footer {
-    padding: 40px;
+    padding: 40px 32px;
   }
 }
 
-/* ========== Desktop - 1024px+ ========== */
+/* ========== DESKTOP - 1024px+ ========== */
 @media (min-width: 1024px) {
-  .main {
-    max-width: 900px;
-    margin: 0 auto;
+  .site-header {
+    padding: 32px 48px 28px;
   }
   
-  .site-header,
+  .post-item {
+    padding: 32px 48px;
+  }
+  
   .post-header {
-    padding: 48px 60px 32px;
+    padding: 40px 48px;
   }
   
-  .post-list {
-    padding: 32px 60px;
+  .post-header .post-title {
+    font-size: 42px;
   }
   
   .post-content {
-    padding: 48px 60px 60px;
+    padding: 40px 48px 60px;
     font-size: 18px;
-    line-height: 1.8;
   }
   
-  .post-content h2 {
-    font-size: 32px;
-    margin-top: 48px;
+  .post-content > * {
+    max-width: 760px;
   }
   
-  .post-content h3 {
-    font-size: 24px;
+  .post-content blockquote {
+    padding: 28px 48px;
   }
   
-  .back-home-btn {
-    margin: 48px 60px;
+  .original-text {
+    padding: 28px 48px;
   }
   
   .site-footer {
-    padding: 48px 60px;
+    padding: 48px;
   }
 }
 
-/* ========== Large Desktop - 1200px+ ========== */
-@media (min-width: 1200px) {
-  .main {
-    max-width: 1000px;
+/* ========== LARGE DESKTOP - 1400px+ ========== */
+@media (min-width: 1400px) {
+  .post-content > * {
+    max-width: 800px;
   }
   
   .post-content {
     font-size: 19px;
+    line-height: 1.8;
   }
 }
 
-/* ========== Dark Mode Support ========== */
+/* ========== DARK MODE ========== */
 @media (prefers-color-scheme: dark) {
   :root {
     --ios-bg-primary: #000000;
@@ -454,33 +488,5 @@ a {
     
     --ios-blue: #0A84FF;
     --ios-blue-dark: #409CFF;
-  }
-  
-  .original-text {
-    border-color: var(--ios-text-quaternary);
-  }
-  
-  .site-header,
-  .post-header {
-    border-bottom-color: var(--ios-text-quaternary);
-  }
-}
-
-/* ========== Print Styles ========== */
-@media print {
-  body {
-    background: white;
-  }
-  
-  .main {
-    max-width: 100%;
-  }
-  
-  article.post {
-    box-shadow: none;
-  }
-  
-  .back-home-btn {
-    display: none;
   }
 }
