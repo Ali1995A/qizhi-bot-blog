@@ -304,14 +304,15 @@ article.post {
 
 /* Dark mode specific overrides */
 @media (prefers-color-scheme: dark) {
+  /* Force dark background for original text blocks (fix: light "mask" in dark mode) */
   .original-text {
-    background: var(--ios-bg-tertiary);
-    color: var(--ios-text-primary);
+    background: #1C1C1E !important;
+    color: #FFFFFF !important;
     border-color: var(--ios-text-quaternary);
   }
-  
+
   .original-text p {
-    color: var(--ios-text-primary);
+    color: #FFFFFF !important;
   }
 }
 
