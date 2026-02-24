@@ -1,236 +1,353 @@
-/* iOS Design System - Minimal, Clean, Elegant */
+/* iOS Aesthetic Design System - Premium Blog Styles */
 
+/* ========== CSS Variables (Design Tokens) ========== */
 :root {
-  --ios-bg: #f2f2f7;
-  --ios-card: #ffffff;
+  /* iOS Color Palette */
+  --ios-bg-primary: #F2F2F7;
+  --ios-bg-secondary: #FFFFFF;
+  --ios-bg-tertiary: #F5F5F7;
+  
   --ios-text-primary: #000000;
-  --ios-text-secondary: #8e8e93;
-  --ios-text-tertiary: #c7c7cc;
-  --ios-blue: #007aff;
-  --ios-blue-light: #5ac8fa;
-  --ios-gray: #8e8e93;
-  --ios-gray-light: #e5e5ea;
-  --ios-gray-lighter: #f2f2f7;
-  --ios-separator: #c6c6c8;
-  --ios-radius-sm: 8px;
-  --ios-radius-md: 12px;
-  --ios-radius-lg: 16px;
-  --ios-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --ios-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --ios-text-secondary: #3C3C43;
+  --ios-text-tertiary: #8E8E93;
+  --ios-text-quaternary: #C7C7CC;
+  
+  --ios-blue: #007AFF;
+  --ios-blue-dark: #0051D5;
+  --ios-green: #34C759;
+  --ios-orange: #FF9500;
+  --ios-red: #FF3B30;
+  --ios-gray: #8E8E93;
+  
+  /* iOS Shadows (Material Depth) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.12);
+  
+  /* iOS Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+  
+  /* iOS Spacing (8pt Grid) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  
+  /* Typography Scale */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SF Mono", SFMono-Regular, ui-monospace, Menlo, monospace;
 }
 
-* {
+/* ========== Reset & Base ========== */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  line-height: 1.6;
-  color: var(--ios-text-primary);
-  background: var(--ios-bg);
+html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
 }
 
+body {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.47059;
+  color: var(--ios-text-primary);
+  background-color: var(--ios-bg-primary);
+  letter-spacing: -0.022em;
+}
+
+/* ========== Layout Container ========== */
 .main {
   max-width: 680px;
   margin: 0 auto;
-  padding: 20px 16px 60px;
+  padding: var(--space-6) var(--space-5);
   min-height: 100vh;
 }
 
-/* Site Header - iOS Style */
+@media (min-width: 768px) {
+  .main {
+    padding: var(--space-10) var(--space-6);
+  }
+}
+
+/* ========== Site Header ========== */
 .site-header {
   text-align: center;
-  margin-bottom: 32px;
-  padding: 24px 0;
+  margin-bottom: var(--space-12);
+  padding-bottom: var(--space-8);
+  border-bottom: 0.5px solid var(--ios-text-quaternary);
 }
 
 .site-title {
   font-size: 28px;
   font-weight: 700;
-  letter-spacing: -0.5px;
-  margin-bottom: 6px;
+  letter-spacing: -0.021em;
+  margin-bottom: var(--space-2);
   color: var(--ios-text-primary);
 }
 
-.site-description {
-  color: var(--ios-text-secondary);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.3px;
+.site-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
 }
 
-/* Post List - iOS Card Style */
+.site-title a:hover {
+  opacity: 0.7;
+}
+
+.site-description {
+  font-size: 15px;
+  color: var(--ios-text-tertiary);
+  font-weight: 400;
+  letter-spacing: -0.016em;
+}
+
+/* ========== Post List (Homepage) ========== */
 .post-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-8);
 }
 
 .post-item {
-  background: var(--ios-card);
-  border-radius: var(--ios-radius-lg);
-  padding: 20px;
-  box-shadow: var(--ios-shadow);
-  transition: all 0.2s ease;
+  background: var(--ios-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
 
 .post-item:hover {
   transform: translateY(-2px);
-  box-shadow: var(--ios-shadow-hover);
+  box-shadow: var(--shadow-md);
 }
 
 .post-item:active {
   transform: scale(0.98);
 }
 
-.post-title {
-  font-size: 17px;
+.post-item .post-title {
+  font-size: 19px;
   font-weight: 600;
-  line-height: 1.4;
-  margin-bottom: 8px;
-  letter-spacing: -0.2px;
+  line-height: 1.26316;
+  letter-spacing: -0.021em;
+  margin-bottom: var(--space-3);
 }
 
-.post-title a {
+.post-item .post-title a {
   color: var(--ios-text-primary);
   text-decoration: none;
-  display: block;
 }
 
-.post-title a:hover {
-  color: var(--ios-blue);
-}
-
-.post-meta {
+.post-item .post-meta {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
   font-size: 13px;
+  color: var(--ios-text-tertiary);
 }
 
-.post-date {
-  color: var(--ios-text-secondary);
-  font-weight: 400;
+.post-item .post-date {
+  font-weight: 500;
 }
 
-.post-tags {
+.post-item .post-tags {
   color: var(--ios-blue);
   font-weight: 500;
-  font-size: 12px;
 }
 
-.post-excerpt {
-  color: var(--ios-text-secondary);
+.post-item .post-excerpt {
   font-size: 15px;
-  line-height: 1.5;
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  line-height: 1.4;
+  color: var(--ios-text-secondary);
+  letter-spacing: -0.016em;
 }
 
-/* Article Page - iOS Style */
-.post {
-  background: var(--ios-card);
-  border-radius: var(--ios-radius-lg);
-  overflow: hidden;
-  box-shadow: var(--ios-shadow);
+/* ========== Article Page ========== */
+article.post {
+  background: var(--ios-bg-secondary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 768px) {
+  article.post {
+    padding: var(--space-10) var(--space-8);
+  }
 }
 
 .post-header {
-  padding: 24px 20px 16px;
-  border-bottom: 0.5px solid var(--ios-gray-light);
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-6);
+  border-bottom: 0.5px solid var(--ios-text-quaternary);
 }
 
+.post-header .post-title {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.125;
+  letter-spacing: -0.021em;
+  margin-bottom: var(--space-4);
+  color: var(--ios-text-primary);
+}
+
+@media (min-width: 768px) {
+  .post-header .post-title {
+    font-size: 40px;
+  }
+}
+
+.post-header .post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 14px;
+  color: var(--ios-text-tertiary);
+}
+
+.post-header .post-date {
+  font-weight: 500;
+  color: var(--ios-text-secondary);
+}
+
+.post-header .post-tags {
+  color: var(--ios-blue);
+  font-weight: 500;
+}
+
+/* ========== Post Content Typography ========== */
 .post-content {
-  padding: 20px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ios-text-primary);
+}
+
+.post-content > * + * {
+  margin-top: var(--space-5);
 }
 
 .post-content h2 {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  margin: 32px 0 16px;
-  letter-spacing: -0.3px;
+  line-height: 1.16667;
+  letter-spacing: -0.021em;
+  margin-top: var(--space-10);
+  margin-bottom: var(--space-4);
   color: var(--ios-text-primary);
 }
 
 .post-content h3 {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
-  margin: 24px 0 12px;
-  letter-spacing: -0.2px;
+  line-height: 1.2;
+  letter-spacing: -0.021em;
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-3);
   color: var(--ios-text-primary);
 }
 
 .post-content p {
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
+  letter-spacing: -0.021em;
+}
+
+.post-content strong {
+  font-weight: 600;
   color: var(--ios-text-primary);
 }
 
-.post-content ul,
-.post-content ol {
-  margin: 16px 0;
-  padding-left: 20px;
+.post-content em {
+  font-style: italic;
 }
 
-.post-content li {
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 8px;
-  color: var(--ios-text-primary);
-}
-
+/* iOS Style Blockquote */
 .post-content blockquote {
-  margin: 20px 0;
-  padding: 16px 20px;
-  background: var(--ios-gray-lighter);
-  border-left: 4px solid var(--ios-blue);
-  border-radius: 0 var(--ios-radius-sm) var(--ios-radius-sm) 0;
+  margin: var(--space-6) 0;
+  padding: var(--space-4) var(--space-5);
+  background: var(--ios-bg-tertiary);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--ios-blue);
 }
 
 .post-content blockquote p {
   margin: 0;
-  font-style: italic;
+  font-size: 16px;
+  line-height: 1.5;
   color: var(--ios-text-secondary);
 }
 
-.post-content hr {
-  border: none;
-  height: 0.5px;
-  background: var(--ios-separator);
-  margin: 32px 0;
+.post-content blockquote p + p {
+  margin-top: var(--space-3);
 }
 
+/* iOS Style Lists */
+.post-content ul,
+.post-content ol {
+  margin: var(--space-4) 0;
+  padding-left: var(--space-6);
+}
+
+.post-content li {
+  margin-bottom: var(--space-2);
+  line-height: 1.5;
+}
+
+.post-content li::marker {
+  color: var(--ios-text-tertiary);
+}
+
+/* iOS Style Horizontal Rule */
+.post-content hr {
+  margin: var(--space-8) 0;
+  border: none;
+  height: 0.5px;
+  background: var(--ios-text-quaternary);
+}
+
+/* iOS Style Table */
 .post-content table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
+  margin: var(--space-6) 0;
   font-size: 14px;
-  border-radius: var(--ios-radius-sm);
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
 .post-content th {
-  background: var(--ios-gray-lighter);
-  padding: 12px 16px;
+  background: var(--ios-bg-tertiary);
+  padding: var(--space-3) var(--space-4);
   text-align: left;
   font-weight: 600;
-  color: var(--ios-text-primary);
-  border-bottom: 0.5px solid var(--ios-separator);
+  color: var(--ios-text-secondary);
+  border-bottom: 0.5px solid var(--ios-text-quaternary);
 }
 
 .post-content td {
-  padding: 12px 16px;
-  border-bottom: 0.5px solid var(--ios-gray-light);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 0.5px solid var(--ios-bg-tertiary);
   color: var(--ios-text-primary);
 }
 
@@ -238,130 +355,135 @@ body {
   border-bottom: none;
 }
 
-/* Attachment Blocks - iOS Style */
-.attachment-block {
-  background: var(--ios-gray-lighter);
-  padding: 20px;
-  margin: 20px 0;
-  border-radius: var(--ios-radius-md);
-  border-left: 3px solid var(--ios-blue);
-}
-
-.attachment-block p {
+/* Original Text Attachment Blocks */
+.original-text {
+  background: var(--ios-bg-tertiary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin: var(--space-6) 0;
   font-size: 15px;
-  line-height: 1.7;
-  margin-bottom: 12px;
-  color: var(--ios-text-primary);
+  line-height: 1.6;
+  color: var(--ios-text-secondary);
+  border: 0.5px solid var(--ios-text-quaternary);
 }
 
-.attachment-block p:last-child {
+.original-text p {
+  margin-bottom: var(--space-3);
+}
+
+.original-text p:last-child {
   margin-bottom: 0;
 }
 
-/* Home Button - iOS Style */
-.home-button {
+/* ========== iOS Style Button ========== */
+.back-home-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: var(--ios-blue);
   color: white;
-  padding: 14px 28px;
-  border-radius: 100px;
-  text-decoration: none;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
-  letter-spacing: -0.2px;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+  box-shadow: var(--shadow-sm);
 }
 
-.home-button:hover {
-  background: #0056b3;
+.back-home-btn:hover {
+  background: var(--ios-blue-dark);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
+  box-shadow: var(--shadow-md);
 }
 
-.home-button:active {
+.back-home-btn:active {
   transform: scale(0.96);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Site Footer - iOS Style */
+/* ========== Site Footer ========== */
 .site-footer {
-  margin-top: 48px;
-  padding: 24px 0;
+  margin-top: var(--space-16);
+  padding-top: var(--space-8);
   text-align: center;
-}
-
-.site-footer p {
   color: var(--ios-text-tertiary);
   font-size: 13px;
-  margin: 0;
+  letter-spacing: -0.006em;
 }
 
-/* Responsive - Mobile First */
-@media (max-width: 480px) {
-  .main {
-    padding: 16px 12px 40px;
-  }
-  
-  .site-title {
-    font-size: 24px;
-  }
-  
-  .post-item {
-    padding: 16px;
-    border-radius: var(--ios-radius-md);
-  }
-  
-  .post-title {
-    font-size: 16px;
-  }
-  
-  .post-content {
-    padding: 16px;
-  }
-  
-  .post-content h2 {
-    font-size: 20px;
-  }
-  
-  .post-content h3 {
-    font-size: 17px;
-  }
-  
-  .post-content p {
-    font-size: 15px;
-  }
+/* ========== Links ========== */
+a {
+  color: var(--ios-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ios-bg: #000000;
-    --ios-card: #1c1c1e;
-    --ios-text-primary: #ffffff;
-    --ios-text-secondary: #8e8e93;
-    --ios-text-tertiary: #636366;
-    --ios-gray-light: #38383a;
-    --ios-gray-lighter: #2c2c2e;
-    --ios-separator: #38383a;
-  }
-  
-  .post-content blockquote {
-    background: var(--ios-gray-lighter);
-  }
-  
-  .attachment-block {
-    background: var(--ios-gray-lighter);
-  }
+a:hover {
+  color: var(--ios-blue-dark);
 }
 
-/* Smooth Scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Selection Color - iOS Blue */
+/* ========== Selection ========== */
 ::selection {
   background: rgba(0, 122, 255, 0.2);
+  color: var(--ios-text-primary);
+}
+
+/* ========== Scrollbar (Webkit) ========== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ios-text-quaternary);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ios-text-tertiary);
+}
+
+/* ========== Print Styles ========== */
+@media print {
+  body {
+    background: white;
+  }
+  
+  .main {
+    max-width: 100%;
+    padding: 20px;
+  }
+  
+  article.post {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
+
+/* ========== Dark Mode Support ========== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ios-bg-primary: #000000;
+    --ios-bg-secondary: #1C1C1E;
+    --ios-bg-tertiary: #2C2C2E;
+    
+    --ios-text-primary: #FFFFFF;
+    --ios-text-secondary: #EBEBF5;
+    --ios-text-tertiary: #8E8E93;
+    --ios-text-quaternary: #48484A;
+    
+    --ios-blue: #0A84FF;
+    --ios-blue-dark: #409CFF;
+  }
+  
+  .original-text {
+    border-color: var(--ios-text-quaternary);
+  }
 }
