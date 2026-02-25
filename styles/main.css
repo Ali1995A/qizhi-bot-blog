@@ -17,6 +17,11 @@
   
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  --border-hairline: 0.5px solid var(--ios-text-quaternary);
+  --radius-lg: 16px;
+  --radius-md: 14px;
 }
 
 *, *::before, *::after {
@@ -38,6 +43,13 @@ body {
   background-color: var(--ios-bg-primary);
 }
 
+/* Better focus visibility (keyboard) */
+:focus-visible {
+  outline: 3px solid rgba(10, 132, 255, 0.35);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
 /* ========== FULL WIDTH LAYOUT ========== */
 .main {
   width: 100%;
@@ -51,9 +63,9 @@ body {
 .site-header {
   width: 100%;
   text-align: center;
-  padding: 20px 16px 16px;
+  padding: 22px 16px 18px;
   background: var(--ios-bg-secondary);
-  border-bottom: 0.5px solid var(--ios-text-quaternary);
+  border-bottom: var(--border-hairline);
 }
 
 .site-title {
@@ -198,19 +210,26 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 10px;
   background: var(--ios-bg-primary);
+  padding: 12px 0 18px;
 }
 
 .post-item {
   width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
   background: var(--ios-bg-secondary);
-  padding: 20px 16px;
-  transition: background 0.15s;
+  padding: 18px 16px;
+  border-radius: var(--radius-lg);
+  border: var(--border-hairline);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s, box-shadow 0.2s, background 0.15s;
 }
 
 .post-item:active {
   background: var(--ios-bg-tertiary);
+  transform: scale(0.995);
 }
 
 .post-item .post-title {
@@ -229,15 +248,26 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 12px;
-  margin-bottom: 8px;
+  gap: 8px 10px;
+  margin-bottom: 10px;
   font-size: 13px;
   color: var(--ios-text-tertiary);
 }
 
 .post-item .post-tags {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
   color: var(--ios-blue);
   font-weight: 500;
+  line-height: 1.35;
+}
+
+/* Clamp overlong tag lines on home to avoid visual noise */
+.post-item .post-tags {
+  max-height: 2.7em;
+  overflow: hidden;
 }
 
 .post-item .post-excerpt {
@@ -253,10 +283,15 @@ article.post {
   min-height: 100vh;
 }
 
+/* Add breathing room on article pages */
+.main-content {
+  width: 100%;
+}
+
 .post-header {
   width: 100%;
-  padding: 24px 16px 20px;
-  border-bottom: 0.5px solid var(--ios-text-quaternary);
+  padding: 28px 16px 22px;
+  border-bottom: var(--border-hairline);
 }
 
 .post-header .post-title {
@@ -284,9 +319,9 @@ article.post {
 .post-content {
   width: 100%;
   font-size: 17px;
-  line-height: 1.7;
+  line-height: 1.75;
   color: var(--ios-text-primary);
-  padding: 24px 16px 40px;
+  padding: 26px 16px 52px;
 }
 
 .post-content > * {
@@ -458,6 +493,35 @@ article.post {
 a {
   color: var(--ios-blue);
   text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Code blocks (basic) */
+.post-content pre {
+  width: 100%;
+  max-width: none;
+  overflow: auto;
+  background: var(--ios-bg-tertiary);
+  border: var(--border-hairline);
+  border-radius: 12px;
+  padding: 14px 14px;
+}
+
+.post-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.92em;
+}
+
+.post-content p code,
+.post-content li code {
+  background: var(--ios-bg-tertiary);
+  border: var(--border-hairline);
+  border-radius: 8px;
+  padding: 2px 6px;
 }
 
 /* Selection */
