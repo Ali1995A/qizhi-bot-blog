@@ -209,9 +209,18 @@ def gen_archive(root: Path, base: str, posts: list[Post]):
     (root / "archive.html").write_text(page_head(base, title, desc) + "\n".join(body) + page_tail(), encoding="utf-8")
 
 
-def norm_tag(t: str) -> str:
+def load_json(path: Path):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+
+def norm_tag(t: str, alias_map: dict[str, str] | None) -> str:
     t = t.strip()
     t = re.sub(r"\s+", " ", t)
+    if alias_map and t in alias_map:
+        t = alias_map[t]
     return t
 
 
@@ -227,10 +236,18 @@ def gen_tags(root: Path, base: str, posts: list[Post]):
     title = "Tags"
     desc = "Browse by tags"
 
+    # Optional tag alias map
+    alias_map = None
+    alias_path = root / "data" / "tags-alias.json"
+    if alias_path.exists():
+        x = load_json(alias_path)
+        if isinstance(x, dict):
+            alias_map = x
+
     tagmap: dict[str, list[Post]] = {}
     for p in posts:
         for t in p.tags:
-            t = norm_tag(t)
+            t = norm_tag(t, alias_map)
             if not t:
                 continue
             tagmap.setdefault(t, []).append(p)

@@ -5,13 +5,17 @@ Design goals (for Leo):
 - Stop manual homepage editing (source of drift / broken links).
 - Deterministic output (same input => same index.html).
 - Best-effort extraction from existing static HTML posts.
+- Homepage is an *entry page* (featured + topics + latest), still static.
 
 Heuristics:
 - title: <title>...</title> (strip suffix "| Mr. Qizhi")
 - description/excerpt: <meta name="description" content="..."> (fallback: first <p> in .post-content)
 - date: JSON-LD Article.datePublished (fallback: regex in page for YYYY-MM-DD)
 - tags: JSON-LD keywords (comma-separated) or meta keywords
-- language: JSON-LD inLanguage (fallback: html[lang])
+
+Config:
+- data/featured.json: list of featured slugs for "Start here" section
+- data/tags-alias.json: tag normalization map (optional)
 
 Usage:
   scripts/generate_index.py --root . --base https://ai.liexpress.cc --limit 60
@@ -26,6 +30,13 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
+
+
+def load_json(path: Path):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
 
 TITLE_RE = re.compile(r"<title>(.*?)</title>", re.I | re.S)
 META_DESC_RE = re.compile(r"<meta\s+name=\"description\"\s+content=\"(.*?)\"\s*/?>", re.I | re.S)
@@ -49,7 +60,8 @@ class Post:
     url: str
     title: str
     date: str  # YYYY-MM-DD
-    tags: str
+    tags: str  # rendered string like "#AI #GovTech"
+    tag_list: list[str]
     excerpt: str
 
 
@@ -84,24 +96,43 @@ def pick_date(text: str, jsonlds: list[dict]) -> Optional[str]:
     return None
 
 
-def pick_tags(text: str, jsonlds: list[dict]) -> str:
+def pick_tags(text: str, jsonlds: list[dict]) -> list[str]:
     # Prefer JSON-LD keywords
     for d in jsonlds:
         if d.get("@type") in ("Article", "BlogPosting"):
             kw = d.get("keywords")
             if isinstance(kw, str) and kw.strip():
-                parts = [p.strip() for p in kw.split(",") if p.strip()]
-                # render as #Tag style
-                return " ".join([f"#{p}" for p in parts[:12]])
+                return [p.strip() for p in kw.split(",") if p.strip()]
             if isinstance(kw, list):
-                parts = [str(x).strip() for x in kw if str(x).strip()]
-                return " ".join([f"#{p}" for p in parts[:12]])
+                return [str(x).strip() for x in kw if str(x).strip()]
     # Fallback: meta keywords
     m = META_KEYWORDS_RE.search(text)
     if m:
-        parts = [p.strip() for p in strip_tags(m.group(1)).split(",") if p.strip()]
-        return " ".join([f"#{p}" for p in parts[:12]])
-    return ""
+        return [p.strip() for p in strip_tags(m.group(1)).split(",") if p.strip()]
+    return []
+
+
+def norm_tags(tags: list[str], alias_map: dict[str, str] | None, limit: int = 10) -> str:
+    out: list[str] = []
+    for t in tags:
+        t = t.strip()
+        if not t:
+            continue
+        if alias_map and t in alias_map:
+            t = alias_map[t]
+        # normalize spacing
+        t = re.sub(r"\s+", " ", t)
+        out.append(t)
+    # de-dup stable
+    seen = set()
+    dedup = []
+    for t in out:
+        k = t.lower()
+        if k in seen:
+            continue
+        seen.add(k)
+        dedup.append(t)
+    return " ".join([f"#{t}" for t in dedup[:limit]])
 
 
 def pick_title(text: str) -> str:
@@ -132,7 +163,7 @@ INDEX_TEMPLATE_HEAD = """<!DOCTYPE html>
   <meta charset=\"utf-8\" />
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
   <meta name=\"description\" content=\"Mr. Qizhi - Expert in urban planning, AI technology, Gov-Tech, digital transformation, smart cities, and digital twins.\" />
-  <meta name=\"keywords\" content=\"AI, urban planning, Gov-Tech, digital transformation, smart city, digital twin, government\" />
+  <meta name=\"keywords\" content=\"AI, urban planning, GovTech, digital transformation, smart city, digital twin, government\" />
   <meta name=\"author\" content=\"Mr. Qizhi\" />
   <meta property=\"og:site_name\" content=\"Mr. Qizhi\" />
   <meta property=\"og:title\" content=\"Mr. Qizhi | AI and Urban Planning Insights\" />
@@ -163,13 +194,16 @@ INDEX_TEMPLATE_HEAD = """<!DOCTYPE html>
     <div class=\"site-header\">
       <h1 class=\"site-title\">Mr. Qizhi</h1>
       <p class=\"site-description\">AI · Urban Planning · Gov-Tech · Digital Transformation · Digital Twin</p>
+      <div class=\"top-nav\">
+        <a href=\"about.html\">About</a>
+        <a href=\"tags.html\">Tags</a>
+        <a href=\"archive.html\">Archive</a>
+      </div>
     </div>
 
-    <div class=\"main-content\">
-      <div class=\"post-list\">\n"""
+    <div class=\"main-content\">\n"""
 
 INDEX_TEMPLATE_TAIL = """
-      </div>
     </div>
 
     <div class=\"site-footer\">
@@ -203,6 +237,15 @@ def render_post(p: Post) -> str:
     )
 
 
+def render_section(title: str, inner_html: str) -> str:
+    return (
+        "<section class=\"home-section\">\n"
+        f"  <div class=\"home-section-title\">{html.escape(title)}</div>\n"
+        f"  {inner_html}\n"
+        "</section>\n\n"
+    )
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
@@ -215,6 +258,14 @@ def main() -> int:
     if not post_root.exists():
         print(f"ERROR: post directory not found: {post_root}", file=sys.stderr)
         return 2
+
+    # Optional tag alias map
+    alias_map = None
+    alias_path = root / "data" / "tags-alias.json"
+    if alias_path.exists():
+        x = load_json(alias_path)
+        if isinstance(x, dict):
+            alias_map = x
 
     posts: list[Post] = []
 
@@ -229,7 +280,8 @@ def main() -> int:
         title = pick_title(text)
         excerpt = pick_excerpt(text)
         date = pick_date(text, jsonlds) or "1970-01-01"
-        tags = pick_tags(text, jsonlds)
+        tag_list = pick_tags(text, jsonlds)
+        tags = norm_tags(tag_list, alias_map, limit=10)
 
         posts.append(
             Post(
@@ -238,6 +290,7 @@ def main() -> int:
                 title=title,
                 date=date,
                 tags=tags,
+                tag_list=tag_list,
                 excerpt=excerpt,
             )
         )
@@ -246,15 +299,75 @@ def main() -> int:
     def key(p: Post):
         return (p.date, p.slug)
 
-    posts = sorted(posts, key=key, reverse=True)[: args.limit]
+    posts = sorted(posts, key=key, reverse=True)
+
+    # Featured slugs
+    featured = []
+    feat_path = root / "data" / "featured.json"
+    if feat_path.exists():
+        fx = load_json(feat_path)
+        if isinstance(fx, dict) and isinstance(fx.get("slugs"), list):
+            featured = [str(s) for s in fx.get("slugs") if str(s)]
+
+    by_slug = {p.slug: p for p in posts}
+    featured_posts = [by_slug[s] for s in featured if s in by_slug]
+
+    latest_posts = [p for p in posts if p.slug not in set(featured)][: args.limit]
+
+    # Topic hub: top tags by frequency (exclude empty)
+    freq = {}
+    for p in posts:
+        for t in p.tag_list:
+            t = alias_map.get(t, t) if alias_map else t
+            t = t.strip()
+            if not t:
+                continue
+            freq[t] = freq.get(t, 0) + 1
+    top_tags = [t for t, _ in sorted(freq.items(), key=lambda kv: (-kv[1], kv[0].lower()))][:10]
 
     out = INDEX_TEMPLATE_HEAD.format(base=args.base)
-    for p in posts:
-        out += render_post(p)
+
+    # Hero
+    out += "<section class=\"home-hero\">\n"
+    out += "  <div class=\"home-hero-card\">\n"
+    out += "    <div class=\"home-hero-kicker\">Mr. Qizhi</div>\n"
+    out += "    <h2 class=\"home-hero-title\">AI, Urban Planning & GovTech — practical frameworks and delivery systems.</h2>\n"
+    out += "    <div class=\"home-hero-actions\">\n"
+    out += "      <a class=\"btn-primary\" href=\"#start-here\">Start here</a>\n"
+    out += "      <a class=\"btn-secondary\" href=\"tags.html\">Browse tags</a>\n"
+    out += "    </div>\n"
+    out += "  </div>\n"
+    out += "</section>\n\n"
+
+    # Featured
+    out += "<div id=\"start-here\"></div>\n"
+    inner = "<div class=\"post-list\">\n" + "".join(render_post(p) for p in featured_posts) + "</div>"
+    out += render_section("Start here", inner)
+
+    # Topics
+    def tag_anchor(t: str) -> str:
+        a = t.lower()
+        a = re.sub(r"[^a-z0-9\u4e00-\u9fff]+", "-", a)
+        a = a.strip("-")
+        return a or "tag"
+
+    chips = "<div class=\"topic-grid\">\n"
+    for t in top_tags:
+        chips += (
+            f"  <a class=\"topic-card\" href=\"tags.html#{html.escape(tag_anchor(t))}\">"
+            f"{html.escape(t)} <span class=\"topic-count\">{freq[t]}</span></a>\n"
+        )
+    chips += "</div>"
+    out += render_section("Topics", chips)
+
+    # Latest
+    inner2 = "<div class=\"post-list\">\n" + "".join(render_post(p) for p in latest_posts) + "</div>"
+    out += render_section("Latest", inner2)
+
     out += INDEX_TEMPLATE_TAIL
 
     (root / "index.html").write_text(out, encoding="utf-8")
-    print(f"Generated index.html with {len(posts)} posts.")
+    print(f"Generated index.html with {len(posts)} posts ({len(featured_posts)} featured, {len(latest_posts)} latest).")
     return 0
 
 

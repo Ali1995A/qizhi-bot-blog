@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search | Mr. Qizhi</title>
+  <meta name="description" content="Search posts" />
+  <link rel="stylesheet" href="https://ai.liexpress.cc/styles/main.css">
+  <link rel="canonical" href="https://ai.liexpress.cc/search.html">
+</head>
+<body>
+  <div class="main">
+    <div class="site-header">
+      <a href="https://ai.liexpress.cc/"><h1 class="site-title">Mr. Qizhi</h1></a>
+      <p class="site-description">AI · Urban Planning · Gov-Tech · Digital Transformation · Digital Twin</p>
+      <div class="top-nav">
+        <a href="https://ai.liexpress.cc/about.html">About</a>
+        <a href="https://ai.liexpress.cc/tags.html">Tags</a>
+        <a href="https://ai.liexpress.cc/archive.html">Archive</a>
+        <a href="https://ai.liexpress.cc/search.html">Search</a>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="page">
+        <div class="page-card">
+          <h2>Search</h2>
+          <p class="muted">Type to search titles, excerpts, and tags. Runs fully in your browser.</p>
+
+          <input id="q" class="search-input" type="search" placeholder="Search…" autocomplete="off" />
+          <div id="meta" class="search-meta"></div>
+          <div id="results" class="search-results"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-footer">
+      <p>© 2026 Mr. Qizhi | AI Powered Content</p>
+      <p><a href="https://liexpress.cc/">Main Blog</a> · <a href="https://x.com/liexpressok" target="_blank" rel="noopener">𝕏 @liexpressok</a></p>
+    </div>
+  </div>
+
+<script>
+(async function() {
+  const $q = document.getElementById('q');
+  const $meta = document.getElementById('meta');
+  const $results = document.getElementById('results');
+
+  function esc(s){return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+  let data = [];
+  try {
+    const res = await fetch('https://ai.liexpress.cc/search.json', {cache: 'no-store'});
+    data = await res.json();
+  } catch (e) {
+    $meta.textContent = 'Failed to load search index.';
+    return;
+  }
+
+  function score(item, q) {
+    const s = (item.title + ' ' + (item.excerpt||'') + ' ' + (item.tags||[]).join(' ')).toLowerCase();
+    let sc = 0;
+    for (const token of q.split(/\s+/).filter(Boolean)) {
+      if (s.includes(token)) sc += 1;
+      if (item.title.toLowerCase().includes(token)) sc += 2;
+    }
+    return sc;
+  }
+
+  function render(list, q) {
+    $results.innerHTML = '';
+    if (!q) {
+      $meta.textContent = `Indexed ${data.length} posts.`;
+      return;
+    }
+    const qn = q.trim().toLowerCase();
+    const ranked = data
+      .map(it => ({it, sc: score(it, qn)}))
+      .filter(x => x.sc > 0)
+      .sort((a,b) => b.sc - a.sc || (b.it.date||'').localeCompare(a.it.date||''));
+
+    $meta.textContent = `${ranked.length} result(s).`;
+
+    for (const r of ranked.slice(0, 30)) {
+      const it = r.it;
+      const div = document.createElement('div');
+      div.className = 'search-item';
+      div.innerHTML = `
+        <div class="search-item-title"><a href="${esc(it.url)}">${esc(it.title)}</a></div>
+        <div class="search-item-meta">${esc(it.date || '')} · ${(it.tags||[]).slice(0,6).map(t=>'#'+esc(t)).join(' ')}</div>
+        <div class="search-item-excerpt">${esc(it.excerpt || '')}</div>
+      `;
+      $results.appendChild(div);
+    }
+  }
+
+  $q.addEventListener('input', () => render(data, $q.value));
+  render(data, '');
+})();
+</script>
+</body>
+</html>
