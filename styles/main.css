@@ -90,6 +90,109 @@ body {
   color: var(--ios-blue);
 }
 
+/* ========== TOP NAV (lightweight IA) ========== */
+.top-nav {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.top-nav a {
+  font-size: 13px;
+  color: var(--ios-text-secondary);
+  background: var(--ios-bg-tertiary);
+  border: 0.5px solid var(--ios-text-quaternary);
+  padding: 6px 10px;
+  border-radius: 9999px;
+  text-decoration: none;
+}
+
+.top-nav a:active {
+  transform: scale(0.98);
+}
+
+/* ========== SIMPLE PAGES (tags/archive/about) ========== */
+.page {
+  width: 100%;
+  padding: 16px;
+}
+
+.page-card {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  background: var(--ios-bg-secondary);
+  border: 0.5px solid var(--ios-text-quaternary);
+  border-radius: 14px;
+  padding: 18px 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.page-card h2 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.page-card h3 {
+  font-size: 16px;
+  margin-top: 18px;
+  margin-bottom: 10px;
+  color: var(--ios-text-secondary);
+}
+
+.tag-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 6px;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ios-text-secondary);
+  background: var(--ios-bg-tertiary);
+  border: 0.5px solid var(--ios-text-quaternary);
+  padding: 6px 10px;
+  border-radius: 9999px;
+}
+
+.tag-count {
+  font-size: 12px;
+  color: var(--ios-text-tertiary);
+}
+
+.tag-list,
+.archive-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.tag-list li,
+.archive-list li {
+  padding: 8px 0;
+  border-bottom: 0.5px solid var(--ios-text-quaternary);
+}
+
+.tag-list li:last-child,
+.archive-list li:last-child {
+  border-bottom: none;
+}
+
+.archive-date {
+  margin-left: 8px;
+  font-size: 12px;
+  color: var(--ios-text-tertiary);
+}
+
+.archive-month {
+  margin-top: 18px;
+}
+
 /* ========== POST LIST - FULL WIDTH CARDS ========== */
 .post-list {
   width: 100%;
