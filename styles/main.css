@@ -916,3 +916,10 @@ main.post p a{word-break: break-word;}
   main.post h1{font-size:38px;}
   main.post p{font-size:18px;}
 }
+
+
+/* Post back nav */
+.post-back{margin:6px 0 18px;}
+.post-back a{display:inline-block;text-decoration:none;color:var(--notes-text-muted);border:1px solid var(--notes-border);border-radius:999px;padding:8px 12px;line-height:1;backdrop-filter: blur(10px);} 
+.post-back a:hover{color:var(--notes-text);background:var(--notes-surface);} 
+.post-back a:active{transform:translateY(1px);}
