@@ -840,3 +840,9 @@ main.post p{font-size:17px;line-height:1.95;margin:0 0 14px;}
   main.post h1{font-size:38px;}
   main.post p{font-size:18px;}
 }
+
+
+/* Layout constraint */
+.main{max-width:1040px;margin:0 auto;}
+.main-content{max-width:1040px;margin:0 auto;}
+@media (min-width:1200px){.main{max-width:1100px}.main-content{max-width:1100px}}
