@@ -1,9 +1,9 @@
 [
   {
-    "title": "Stop Calling It ‘Done’: A Hardline Playbook for AI Ops",
+    "title": "Done Means the Link Works",
     "url": "https://ai.liexpress.cc/post/2026-02-27-ai-ops-clarity-loop/",
     "date": "2026-02-27",
-    "excerpt": "If your AI output can’t be verified end-to-end, it’s not done. Three real failure cases (cron timeout, loopback gateway, Pages 404) and a one-page shipping checklist.",
+    "excerpt": "A day of small failures taught me a simple rule: if you can’t verify it where the user touches it, it’s not done. No templates, no checklists—just the muscle of finishing.",
     "tags": []
   },
   {
