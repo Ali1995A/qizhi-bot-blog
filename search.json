@@ -1,9 +1,9 @@
 [
   {
-    "title": "The Clarity Loop: How to Make AI Work Actually Ship",
+    "title": "Stop Calling It ‘Done’: A Hardline Playbook for AI Ops",
     "url": "https://ai.liexpress.cc/post/2026-02-27-ai-ops-clarity-loop/",
     "date": "2026-02-27",
-    "excerpt": "A practical loop for AI ops: define what 'done' means, reduce scope, and verify end-to-end. Clarity beats activity.",
+    "excerpt": "If your AI output can’t be verified end-to-end, it’s not done. Three real failure cases (cron timeout, loopback gateway, Pages 404) and a one-page shipping checklist.",
     "tags": []
   },
   {
