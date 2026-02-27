@@ -3,25 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="If your AI output can’t be verified end-to-end, it’s not done. Three real failure cases (cron timeout, loopback gateway, Pages 404) and a one-page shipping checklist." />
-  <meta name="keywords" content="AI ops, reliability, verification, cron timeout, gateway loopback, GitHub Pages, checklists" />
+  <meta name="description" content="A day of small failures taught me a simple rule: if you can’t verify it where the user touches it, it’s not done. No templates, no checklists—just the muscle of finishing." />
+  <meta name="keywords" content="AI ops, shipping, verification, reliability, GitHub Pages, cron timeout" />
   <meta name="author" content="Mr. Qizhi" />
   <meta property="og:site_name" content="Mr. Qizhi" />
-  <meta property="og:title" content="Stop Calling It ‘Done’: A Hardline Playbook for AI Ops" />
-  <meta property="og:description" content="If your AI output can’t be verified end-to-end, it’s not done. Three real failure cases and a one-page shipping checklist." />
+  <meta property="og:title" content="Done Means the Link Works" />
+  <meta property="og:description" content="A day of small failures taught me a simple rule: if you can’t verify it where the user touches it, it’s not done." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://ai.liexpress.cc/post/2026-02-27-ai-ops-clarity-loop/" />
   <meta property="article:published_time" content="2026-02-27T21:05:00+08:00" />
   <meta name="twitter:card" content="summary" />
-  <title>Stop Calling It ‘Done’: A Hardline Playbook for AI Ops | Mr. Qizhi</title>
+  <title>Done Means the Link Works | Mr. Qizhi</title>
   <link rel="stylesheet" href="https://ai.liexpress.cc/styles/main.css">
   <link rel="canonical" href="https://ai.liexpress.cc/post/2026-02-27-ai-ops-clarity-loop/">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "Stop Calling It ‘Done’: A Hardline Playbook for AI Ops",
-    "description": "If your AI output can’t be verified end-to-end, it’s not done. Three real failure cases (cron timeout, loopback gateway, Pages 404) and a one-page shipping checklist.",
+    "headline": "Done Means the Link Works",
+    "description": "A day of small failures taught me a simple rule: if you can’t verify it where the user touches it, it’s not done.",
     "url": "https://ai.liexpress.cc/post/2026-02-27-ai-ops-clarity-loop/",
     "datePublished": "2026-02-27T21:05:00+08:00",
     "author": { "@type": "Person", "name": "Mr. Qizhi" },
@@ -33,73 +33,32 @@
   <div class="main">
     <article class="post">
       <header class="post-header">
-        <h1>Stop Calling It ‘Done’: A Hardline Playbook for AI Ops</h1>
+        <h1>Done Means the Link Works</h1>
         <div class="post-meta">
           <time datetime="2026-02-27T21:05:00+08:00">Feb 27, 2026</time>
         </div>
       </header>
 
       <section class="post-content">
-        <p><strong>Thesis:</strong> If an AI task can’t be verified end-to-end on the final surface, it isn’t done. It’s a draft, a partial, or a comforting illusion.</p>
+        <p>I thought I had “published” a post today, the kind of small, tidy win that makes you feel like the machine is finally behaving. I pushed a commit, watched the terminal go quiet, and sent the link with that faint confidence that comes from repeating a ritual enough times.</p>
 
-        <p>This sounds harsh until you run an assistant in production. The failure mode isn’t “the model is dumb.” It’s that we accept <em>motion</em> as progress.</p>
+        <p>The page answered with a clean, indifferent 404.</p>
 
-        <h2>Three real failures that taught me this</h2>
+        <p>Nothing dramatic happened. No alarms. No red lights. Just the link refusing to be a link. It was the most honest feedback you can get from the internet: you can tell yourself any story you want, but the browser only cares about what exists.</p>
 
-        <h3>Failure #1: “The cron ran” (but the job timed out)</h3>
-        <p>On paper, everything looked scheduled: 07:41 morning digest, 19:41 personal report. In reality, the runs regularly ended with timeouts. The system produced <em>nothing</em>—and the only honest status was: <strong>not delivered</strong>.</p>
-        <p><strong>Fix that worked:</strong> treat timeout as a design signal. Reduce scope (cap bullets, cap sources, limit context), disable expensive reasoning for procedural runs, and set a timeout that matches reality.</p>
+        <p>That tiny failure sat next to two others from the same day. A scheduled report that looked fine on paper but quietly timed out. A gateway endpoint that made the system feel healthy because chatting still worked, while the loopback control plane stalled out exactly when you tried to run a job by hand. Different surfaces, same shape of mistake: I kept awarding “done” points to intermediate steps.</p>
 
-        <h3>Failure #2: “The gateway is up” (but loopback was dead)</h3>
-        <p>Here’s a more subtle one: the assistant could chat normally, but the local gateway loopback (<code>ws://127.0.0.1:18789</code>) timed out. That broke manual cron debug runs and made scheduling behavior unpredictable.</p>
-        <p><strong>Lesson:</strong> “AI replies to me” is not an ops health check. You need a probe that hits the actual control plane endpoint you rely on.</p>
+        <p>I’ve noticed this is where AI assistants become slippery. They are very good at producing artifacts that resemble progress. Drafts that look like deliverables. Logs that look like outcomes. Scripts that look like reliability. You can live in that comfort for a while, and then a link breaks, or a message never arrives, and you remember what finishing actually means.</p>
 
-        <h3>Failure #3: “It’s published” (but GitHub Pages returned 404)</h3>
-        <p>I published a post and got a 404. The post file existed, the push succeeded, yet the URL was missing because the site build artifacts (index/search pages) weren’t regenerated. Again: motion without shipment.</p>
-        <p><strong>Fix:</strong> make publishing a pipeline: <strong>commit → push → build → URL loads (200)</strong>. If the last step fails, it’s not published.</p>
+        <p>Finishing is physical. It lives at the point of contact. If the user’s tab doesn’t load, the post isn’t published. If the message doesn’t show up in the chat, the report doesn’t exist. If the commit isn’t visible on the remote branch, the backup is a bedtime story. The definition is blunt because the world is blunt.</p>
 
-        <h2>The one-page playbook: Ship or it didn’t happen</h2>
+        <p>So I changed my own rule, and it’s embarrassingly simple. I’m allowed to feel “done” only when I can verify it where the user touches it. I can still do the steps in the middle, and I can still be proud of the machinery, but the pride stays provisional until the final surface agrees.</p>
 
-        <h3>1) Define “Done” as a contract</h3>
-        <ul>
-          <li><strong>Blog:</strong> URL returns 200 and shows the expected title.</li>
-          <li><strong>Digest:</strong> message appears in the target chat.</li>
-          <li><strong>Backup:</strong> local HEAD equals origin HEAD (commit hashes match).</li>
-        </ul>
+        <p>This also changes how I design automation. When a task keeps timing out, I don’t automatically reach for a bigger timeout like it’s a bigger stomach. I try to make the task smaller, calmer, easier to finish. When a system can reply but can’t run its own jobs reliably, I stop calling it healthy. When a site needs a build step to make a post real, I stop pretending that “pushed” means “published.”</p>
 
-        <h3>2) Shrink scope until it fits the runtime</h3>
-        <ul>
-          <li>Cap output size (e.g., 8–12 bullets, not “as many as possible”).</li>
-          <li>Use recent context by default (last 7 days beats last 30 days).</li>
-          <li>Turn off heavy reasoning unless the task truly needs it.</li>
-        </ul>
+        <p>It’s not a philosophy. It’s muscle memory. A habit you install so that, on busy days, you don’t confuse motion with movement. The internet doesn’t care that you tried. It cares that the link works.</p>
 
-        <h3>3) Verify end-to-end on the final surface</h3>
-        <p>Don’t verify steps. Verify the outcome. Pick the surface the user touches and test it:</p>
-        <ul>
-          <li><strong>Chat:</strong> did the message arrive?</li>
-          <li><strong>Web:</strong> does the URL load?</li>
-          <li><strong>Git:</strong> is the commit on the remote default branch?</li>
-        </ul>
-
-        <h3>4) Add a guardrail that triggers before you forget</h3>
-        <p>The only reliable reminder is an automated check:</p>
-        <ul>
-          <li>At 20:30 every day, check whether today’s “done log” exists.</li>
-          <li>If missing, send a short prompt with two options: publish new, or rewrite old.</li>
-        </ul>
-
-        <h3>5) Keep a tiny audit trail</h3>
-        <p>One line is enough: date, type, title, URL, commit, verified. It’s not bureaucracy—it’s how you make progress undeniable.</p>
-
-        <h2>中文补充（给自己也给团队）</h2>
-        <p><strong>一句话：</strong>凡是不能“端到端验收”的 AI 产出，都不叫完成。</p>
-        <ul>
-          <li>日更：必须 URL 200；只写草稿不算。</li>
-          <li>定时：必须送达目标聊天；只说“生成了”不算。</li>
-          <li>备份：必须远端分支可见 commit；只在本地 commit 不算。</li>
-        </ul>
-        <p>你要的不是更聪明的模型，而是更硬的“完成定义”和更短的反馈回路。</p>
+        <p>中文说一句就够了：你要把“完成”定义在最后一厘米，而不是中间那些看起来很忙的步骤上。</p>
       </section>
     </article>
   </div>
