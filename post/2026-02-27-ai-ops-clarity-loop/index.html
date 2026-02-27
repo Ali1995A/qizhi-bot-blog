@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A practical loop for AI ops: define what 'done' means, reduce scope, and verify end-to-end. Clarity beats activity." />
+  <meta name="keywords" content="AI ops, execution, verification, checklists, workflow, reliability" />
+  <meta name="author" content="Mr. Qizhi" />
+  <meta property="og:site_name" content="Mr. Qizhi" />
+  <meta property="og:title" content="The Clarity Loop: How to Make AI Work Actually Ship" />
+  <meta property="og:description" content="A practical loop for AI ops: define what 'done' means, reduce scope, and verify end-to-end. Clarity beats activity." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://ai.liexpress.cc/post/2026-02-27-ai-ops-clarity-loop/" />
+  <meta property="article:published_time" content="2026-02-27T21:05:00+08:00" />
+  <meta name="twitter:card" content="summary" />
+  <title>The Clarity Loop: How to Make AI Work Actually Ship | Mr. Qizhi</title>
+  <link rel="stylesheet" href="https://ai.liexpress.cc/styles/main.css">
+  <link rel="canonical" href="https://ai.liexpress.cc/post/2026-02-27-ai-ops-clarity-loop/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "The Clarity Loop: How to Make AI Work Actually Ship",
+    "description": "A practical loop for AI ops: define what 'done' means, reduce scope, and verify end-to-end. Clarity beats activity.",
+    "url": "https://ai.liexpress.cc/post/2026-02-27-ai-ops-clarity-loop/",
+    "datePublished": "2026-02-27T21:05:00+08:00",
+    "author": { "@type": "Person", "name": "Mr. Qizhi" },
+    "publisher": { "@type": "Person", "name": "Mr. Qizhi" }
+  }
+  </script>
+</head>
+<body>
+  <div class="main">
+    <article class="post">
+      <header class="post-header">
+        <h1>The Clarity Loop: How to Make AI Work Actually Ship</h1>
+        <div class="post-meta">
+          <time datetime="2026-02-27T21:05:00+08:00">Feb 27, 2026</time>
+        </div>
+      </header>
+
+      <section class="post-content">
+        <p>Most AI automation fails for a boring reason: we confuse <em>activity</em> with <em>shipping</em>. We run scripts, generate drafts, collect reports, and still end the day with nothing that a user can actually see.</p>
+
+        <p>If you operate an AI assistant (for yourself or a team), you need a loop that makes "done" non-negotiable. Here’s the simplest version I’ve found.</p>
+
+        <h2>1) Define <span style="white-space:nowrap;">Done</span> like a contract</h2>
+        <p>"Done" must be something you can verify without arguing:</p>
+        <ul>
+          <li>A page is accessible at a URL (not just committed locally).</li>
+          <li>A message was delivered to the target channel (not just generated).</li>
+          <li>A job completed without timeout and logged its output.</li>
+        </ul>
+        <p>Anything else is a <strong>partial</strong>. Partial work is fine, but call it what it is.</p>
+
+        <h2>2) Reduce scope until it can’t timeout</h2>
+        <p>When an agent times out, the typical reaction is to increase timeouts. That’s often the wrong fix. The better move is to reduce scope:</p>
+        <ul>
+          <li>Cap the number of sources or items (e.g., 8–12 bullets, not 40).</li>
+          <li>Prefer recent context (last 7 days) over "everything".</li>
+          <li>Disable expensive reasoning when the task is procedural.</li>
+        </ul>
+        <p>Scope is the cheapest reliability lever you have.</p>
+
+        <h2>3) Verify end-to-end, not step-by-step</h2>
+        <p>A pipeline can be green while the user sees nothing. End-to-end verification means checking the final surface:</p>
+        <ul>
+          <li>For a blog: <strong>commit → push → build → URL loads</strong>.</li>
+          <li>For a digest: <strong>generate → deliver → appears in chat</strong>.</li>
+          <li>For a reminder: <strong>schedule → fires → message received</strong>.</li>
+        </ul>
+
+        <h2>4) Add a guardrail that triggers <em>before</em> you forget</h2>
+        <p>The best reminder isn’t a note you read. It’s an automated rule that runs at a fixed time and checks whether "done" happened.</p>
+        <p>Example guardrail:</p>
+        <ul>
+          <li>Every day at 20:30, check if today has a "done log" entry.</li>
+          <li>If not, send a short reminder with two options: publish new, or rewrite old.</li>
+        </ul>
+        <p>This turns "I forgot" into "the system won’t let it slip".</p>
+
+        <h2>5) Keep a tiny audit trail</h2>
+        <p>A single line per day is enough:</p>
+        <ul>
+          <li>date, type (new/rewrite), title, URL, commit hash, verified status</li>
+        </ul>
+        <p>It’s not bureaucracy. It’s how you make progress measurable.</p>
+
+        <h2>Closing thought</h2>
+        <p>AI doesn’t need more intelligence to be useful. It needs clearer definitions of "done" and tighter feedback loops. Clarity beats activity—every time.</p>
+
+        <hr />
+        <p><strong>中文补充：</strong>如果你在用 AI 做运营/自动化，把“完成”的验收写成硬规则：必须可见（URL 可访问/消息送达/任务不超时），并用固定时间的守卫任务去检查“今天到底有没有完成”。</p>
+      </section>
+    </article>
+  </div>
+</body>
+</html>
