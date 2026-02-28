@@ -488,6 +488,29 @@ article.post {
   padding: 26px 16px 52px;
 }
 
+/* Article page: persistent Home entry */
+.post-home {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px 16px 0;
+}
+
+.post-home a {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--ios-text-secondary);
+  background: var(--ios-bg-tertiary);
+  border: var(--border-hairline);
+  padding: 6px 10px;
+  border-radius: 9999px;
+  text-decoration: none;
+}
+
+.post-home a:hover {
+  color: var(--ios-blue);
+  border-color: rgba(10, 132, 255, 0.35);
+}
+
 .post-content > * {
   max-width: 680px;
   margin-left: auto;
