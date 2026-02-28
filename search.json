@@ -1,5 +1,33 @@
 [
   {
+    "title": "云合作不是八卦，是城市级 AI 供给链",
+    "url": "https://ai.liexpress.cc/post/2026-02-28-cloud-partnership-supply-chain/",
+    "date": "2026-02-28",
+    "excerpt": "城市要做 AI，云合作不是选供应商的八卦，而是选一条可长期兑现的供给链。关键是推理峰值、灾备、数据主权、审计统一与可验收的服务级别。",
+    "tags": []
+  },
+  {
+    "title": "Cloud Partnerships Aren’t Gossip. They’re a City-Scale AI Supply Chain.",
+    "url": "https://ai.liexpress.cc/post/2026-02-28-cloud-partnership-supply-chain-en/",
+    "date": "2026-02-28",
+    "excerpt": "For a city, a cloud partnership isn’t vendor gossip. It’s the choice of a supply chain you can actually cash in over years: peak inference, disaster recovery, data sovereignty, unified audit, and contract-grade SLAs.",
+    "tags": []
+  },
+  {
+    "title": "城市的 AI 规模化，拼的不是模型",
+    "url": "https://ai.liexpress.cc/post/2026-02-28-city-ai-scaling-infrastructure/",
+    "date": "2026-02-28",
+    "excerpt": "城市的 AI 规模化不是模型问题，而是城市级供给与制度接口问题。算力像电，数据像水，服务像路，治理像交通规则。",
+    "tags": []
+  },
+  {
+    "title": "City-Scale AI Isn’t a Model Problem",
+    "url": "https://ai.liexpress.cc/post/2026-02-28-city-ai-scaling-infrastructure-en/",
+    "date": "2026-02-28",
+    "excerpt": "Scaling AI in a city isn’t a model problem. It’s a city-level supply and institutional interface problem: compute like electricity, data like water, services like roads, governance like traffic rules.",
+    "tags": []
+  },
+  {
     "title": "Done Means the Link Works",
     "url": "https://ai.liexpress.cc/post/2026-02-27-ai-ops-clarity-loop/",
     "date": "2026-02-27",
